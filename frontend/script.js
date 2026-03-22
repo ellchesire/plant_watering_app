@@ -1,7 +1,8 @@
 
   let currentDate = new Date();
 
-  function renderCalendar() {
+
+appendToFile('app.log', `[${new Date().toISOString()}] New log entry\n`);function renderCalendar() {
     const grid = document.getElementById("calendarGrid");
     const monthYear = document.getElementById("monthYear");
 
@@ -51,6 +52,12 @@
   function changeMonth(direction) {
     currentDate.setMonth(currentDate.getMonth() + direction);
     renderCalendar();
+  }
+
+  function addPlant(){
+    const name = document.getElementById("plant-name").value.trim();
+  const interval = parseInt(document.getElementById("watering-interval").value);
+    if (!name || !interval) return alert("Please fill both fields");
   }
 
   renderCalendar();
