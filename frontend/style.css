@@ -1,0 +1,131 @@
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #84978d;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    h2 {
+      text-align: center;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+    }
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background-color: #333333;
+  display: flex;
+}
+
+ul li a {
+  display: block;
+  color: white;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+ul li a:hover {
+  background-color: #4CAF50;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+    .calendar {
+  width: 800px;
+  background: white;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  font-family: Arial, sans-serif;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.calendar-header button {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  margin-top: 10px;
+}
+.day-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 5px;
+}
+.day-name {
+  font-weight: bold;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #555;
+}
+
+.date {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.date:hover {
+  background-color: #4CAF50;
+  color: white;
+  transform: scale(0.9);
+}
+
+.today {
+  border: 2px solid #4CAF50;
+}
+
+.empty {
+  visibility: hidden;
+}
+
+.reminder-box{
+width: 800px;
+height: 500px;
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  font-family: Arial, sans-serif;
+  margin-top:20px;
+}
+
+.text-grid{
+display: grid;
+  grid-template-columns: 1fr;
+ 
+ 
+}
+
+.card {
+  background: white;
+  padding: 15px;
+    border-width: 2px;
+  border-color: #a7b3a7;
+  border-style: solid;
+  margin-bottom: 1px;
+  border-radius:8px;
+}

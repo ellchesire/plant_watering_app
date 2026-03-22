@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Plant Watering Tracker</title>
+</head>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+<ul>
+  <li><a href="index.html">Calendar</a></li>
+  <li><a href="plant_list.html">Plant List</a></li>
+
+</ul>
+<body>
+  
+  <div class="container">
+    <h1>Plant Watering Calendar</h1>
+  </div>
+
+    <div class = "center"> 
+   <div class="calendar">
+  <div class="calendar-header">
+    <button onclick="changeMonth(-1)">◀</button>
+    <h2 id="monthYear"></h2>
+    <button onclick="changeMonth(1)">▶</button>
+    </div>
+    <div class="day-row">
+    <div class ="day-name">
+        Sun
+    </div>
+     <div class ="day-name">
+        Mon
+    </div>
+     <div class ="day-name">
+        Tue
+    </div>
+     <div class ="day-name">
+        Wed
+    </div>
+     <div class ="day-name">
+        Thur
+    </div>
+     <div class ="day-name">
+        Fri
+    </div>
+     <div class ="day-name">
+        Sat
+    </div>
+  </div>
+  
+
+  <div class="calendar-grid" id="calendarGrid">
+
+  </div>
+</div>
+
+
+</div>
+<div class = "center">
+    <div class ="reminder-box"> 
+ <h2> Reminders</h2>
+ <div class="text-grid">
+   <div class="card">Plant 1</div>
+  <div class="card">Plant 2</div>
+  <div class="card">Plant 3</div>
+ </div>
+ 
+ </div>
+
+
+</body>
+</html>
