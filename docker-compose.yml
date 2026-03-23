@@ -1,0 +1,36 @@
+services:
+  db:
+    image: postgres:15
+    container_name: postgres-db
+    restart: always
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    image: python:3.11
+    container_name: backend
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: sh -c "pip install -r requirements.txt && python app.py -u app.py"
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+
+  web:
+    image: nginx:alpine
+    container_name: website
+    ports:
+      - "8080:80"
+    volumes:
+      - ./website:/usr/share/nginx/html:ro
+
+volumes:
+  postgres_data:

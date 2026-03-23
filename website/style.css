@@ -1,0 +1,380 @@
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #84978d;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    h2 {
+      text-align: center;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+    }
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background-color: #333333;
+  display: flex;
+}
+
+ul li a {
+  display: block;
+  color: white;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+ul li a:hover {
+  background-color: #4CAF50;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+    .calendar {
+      border-top: 8px solid #45a049; 
+  width: 800px;
+  background: white;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  font-family: Arial, sans-serif;
+   vertical-align: top;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.calendar-header button {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.day-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 5px;
+}
+.day-name {
+  font-weight: bold;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #555;
+}
+
+.date {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.date:hover {
+  background-color: #4CAF50;
+  color: white;
+  transform: scale(0.9);
+}
+
+.today {
+  border: 2px solid #4CAF50;
+}
+
+.empty {
+  visibility: hidden;
+}
+
+.reminder-box{
+width: 800px;
+height: 500px;
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  font-family: Arial, sans-serif;
+  margin-top:20px;
+  overflow-y: auto;
+  
+}
+
+.text-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  padding: 20px;
+}
+
+
+.card {
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border-left: 8px solid #45a049; 
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  border-left: 8px solid #164e28; 
+}
+
+
+.card h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+
+.card p.water {
+  color: #1E90FF; /* Dodger blue */
+  font-weight: 600;
+  margin: 6px 0;
+}
+
+/* for plant list */
+.card p {
+  margin: 6px 0;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+/* for the reminders*/
+.reminder-card {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  cursor: pointer;
+}
+
+.scroll-box {
+  height: 100vh; 
+  width: 85%; 
+  overflow-y: auto; 
+  box-sizing: border-box; 
+  padding: 20px; 
+  border-radius: 8px;
+  background-color: #f7f7f7;
+  margin-top: 20px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+.scroll-box h2 {
+  text-align: left;              
+  font-size: 1.8rem;             
+  font-weight: 600;               
+  color: #fff;                   
+  background-color: #4CAF50;     
+  padding: 10px 15px;           
+  border-radius: 8px;             
+  display: flex;       
+  margin-bottom: 20px;            
+}
+.calendar-container {
+  position: relative;
+  width: 100%;
+  margin-top: 50px;
+  text-align: center;
+
+}
+
+.add-plant-form {
+  position: absolute;
+  top: 0; 
+  left: 73%;  
+  width: 200px;
+  background-color: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  border-top: 8px solid #45a049; 
+
+}
+
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* semi-transparent dark overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+
+.hidden {
+  display: none;
+}
+
+
+.modal-content {
+  background: #f9f9f9;
+  padding: 30px 40px;
+  border-radius: 12px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  position: relative;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  animation: slideDown 0.3s ease-out;
+}
+
+
+@keyframes slideDown {
+  from { transform: translateY(-30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #555;
+  transition: color 0.2s;
+}
+
+.close-btn:hover {
+  color: #e74c3c;
+}
+
+
+.modal-content h2 {
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.add-plant-form input,
+.modal-content input {
+  width: 100%;
+  padding: 10px 12px;
+  margin: 8px 0 16px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+.add-plant-form input:focus,
+.modal-content input:focus {
+  border-color: #4CAF50;
+  outline: none;
+}
+
+.add-plant-form button{
+   padding: 10px 18px;
+  margin: 8px 4px 0 0;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s, transform 0.1s;
+  width: 100%;
+}
+.modal-content button {
+  padding: 10px 18px;
+  margin: 8px 4px 0 0;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s, transform 0.1s;
+
+}
+.add-plant-form button:hover,
+.modal-content button:hover {
+  transform: translateY(-2px);
+}
+
+.add-plant-form button{
+  background-color: #45a049;
+  color: white
+}
+.modal-content .save {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.add-plant-form button:hover{
+  background-color: #164e28;
+}
+.modal-content .save:hover {
+  background-color: #45a049;
+}
+
+
+.modal-content .delete {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.modal-content .delete:hover {
+  background-color: #c0392b;
+}
+.button-row {
+  display: flex;
+  gap: 10px;      
+  margin-bottom: 20px;
+}
+
+
+.button-row button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s, transform 0.1s;
+}
+
+
+#add-plant-btn {
+  background-color: #4CAF50; 
+  color: white;
+}
+
+#add-plant-btn:hover {
+  background-color: #45a049;
+}
+
+
+#delete-plant-btn {
+  background-color: #e74c3c;
+  color: white;
+}
+
+#delete-plant-btn:hover {
+  background-color: #c0392b;
+}

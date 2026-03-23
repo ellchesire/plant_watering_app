@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Plant List</title>
+</head>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+
+<ul>
+  <li><a href="index.html">Calendar</a></li>
+  <li><a href="plant_list.html">Plant List</a></li>
+
+</ul>
+<body id="plant_list">
+<div class="center">
+  <div class="scroll-box"> 
+    <h2>Plant List</h2>
+    
+
+    <div class="button-row">
+      <button onclick=openSavePlant() id="add-plant-btn">Add Plant</button>
+      <button id="delete-plant-btn">Delete Plant</button>
+    </div>
+
+    <div class="text-grid">
+ 
+    </div>
+  </div>
+</div>
+<div id="plant-modal" class="modal hidden">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal()">&times;</span>
+
+    <h2>Plant Details</h2>
+
+    Name <input type="text" id="edit-name" placeholder="Plant Name">
+    Watering Interval <input type="number" id="edit-interval" placeholder="Interval">
+    Location<input type = "text" id="edit-location" placeholder="Location of Plant">
+    Last Watered <input type = "date" id="edit-watered-date" placeholder="today">
+
+    <button onclick="editPlant()" class="save">Save</button>
+    <button onclick="deletePlant()" class="delete">Delete</button>
+  </div>
+  </div>
+
+  <div id="plant-add" class="modal hidden">
+    <h2>Add Plant</h2>
+     <div class="modal-content">
+    <span class="close-btn" onclick="closeModal()">&times;</span>
+
+    Name <input type="text" id="plant-name" placeholder="Plant Name">
+    Watering Interval <input type="number" id="watering-interval" placeholder="Interval">
+    Location<input type = "text" id="location" placeholder="Location of Plant">
+    Last Watered <input type = "date" id="watered-date">
+
+    <button onclick="addPlant(); closeModal()" class="save">Submit</button>
+  </div>
+   </div>
+</body>
+</html>

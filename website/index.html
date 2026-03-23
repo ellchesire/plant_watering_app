@@ -12,7 +12,7 @@
 
 </ul>
 
-<body>
+<body id="home">
   
   <div class="container">
     <h1>Plant Watering Calendar</h1>
@@ -41,7 +41,7 @@
 </div>
   <!-- Form: floating to the right -->
   <div class="add-plant-form">
-    <h2>Add a Plant</h2>
+    <h3>Add a Plant</h3>
     <input type="text" id="plant-name" placeholder="Plant Name">
     <input type="number" id="watering-interval" placeholder="Water every X days" min="1">
     <button onclick="addPlant()">Add Plant</button>
@@ -53,13 +53,25 @@
  <h2> Reminders</h2>
    
  <div class="text-grid">
-   <div class="card">Plant 1</div>
-  <div class="card">Plant 2</div>
-  <div class="card">Plant 3</div>
+   
  </div>
  
  </div>
 
+<div id="plant-modal" class="modal hidden">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal()">&times;</span>
 
+    <h2>Plant Details</h2>
+
+    Name <input type="text" id="edit-name" placeholder="Plant Name">
+    Watering Interval <input type="number" id="edit-interval" placeholder="Interval">
+    Location<input type = "text" id="edit-location" placeholder="Location of Plant">
+    Last Watered <input type = "date" id="edit-watered-date" placeholder="today">
+
+    <button onclick="savePlant()" class="save">Save</button>
+    <button onclick="deletePlant()" class="delete">Delete</button>
+  </div>
+</div>
 </body>
 </html>
