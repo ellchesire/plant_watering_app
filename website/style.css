@@ -44,8 +44,9 @@ body::after {
 }
 
     h1 {
-     
-      width: 47%;
+
+      width: 800px;
+      margin: 0 auto;
       text-align: center;              
   font-size: 1.8rem;             
   font-weight: 600;               
@@ -53,8 +54,12 @@ body::after {
   background-color: #45a049;     
   padding: 10px 15px;           
   border-radius: 8px;                   
-  margin-bottom: 20px;  
+  border: #0a022b double; 
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
  font-family: Arial, sans-serif;
+ margin-top: 20px;
+  
 
     }
 

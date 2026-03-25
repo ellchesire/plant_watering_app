@@ -5,7 +5,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 
-CORS(app, origins=["http://127.0.0.1:5500"])
+CORS(app, origins=["http://127.0.0.1:5500", "http://localhost:8080"])
 
 # wait for database to be ready
 def get_connection():
@@ -115,8 +115,18 @@ def edit_plant(id):
         conn.commit()
 
     return jsonify({"status": "success", "updated_fields": data})
-@app.route("/del_plant", methods=['POST'])
-def delete():
-    pass
+@app.route("/del_plant/<int: id>", methods=['DELETE'])
+def delete(id):
+    conn = get_connection()
+    cur = conn.cursor()
 
+    cur.execute(
+        "DELETE FROM plants WHERE id = %s   ", (id)
+        
+        )
+
+    conn.commit()
+
+    cur.close()
+    conn.close()
 app.run(host="0.0.0.0", port=5000)
