@@ -112,6 +112,21 @@ async function editPlant(){
   });
 }
 
+async function deletePlant(){
+  if (!currentPlant) return;
+
+  if (!confirm(`Delete ${currentPlant.name}?`)) return;
+
+  const res = await fetch(`http://localhost:5000/del_plant/${currentPlant.id}`, {
+    method: "DELETE"
+  });
+
+  const data = await res.json();
+  console.log("Plant deleted:", data);
+  closeModal();
+  renderPlantsList();
+}
+
 function openSavePlant(){
   document.getElementById("plant-add").classList.remove("hidden");
 }

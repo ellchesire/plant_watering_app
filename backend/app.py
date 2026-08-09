@@ -115,18 +115,19 @@ def edit_plant(id):
         conn.commit()
 
     return jsonify({"status": "success", "updated_fields": data})
-@app.route("/del_plant/<int: id>", methods=['DELETE'])
+@app.route("/del_plant/<int:id>", methods=['DELETE'])
 def delete(id):
     conn = get_connection()
     cur = conn.cursor()
 
     cur.execute(
-        "DELETE FROM plants WHERE id = %s   ", (id)
-        
+        "DELETE FROM plants WHERE id = %s", (id,)
         )
 
     conn.commit()
 
     cur.close()
     conn.close()
+
+    return jsonify({"status": "success", "deleted_id": id})
 app.run(host="0.0.0.0", port=5000)
