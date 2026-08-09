@@ -46,6 +46,7 @@
     <h3>Add a Plant</h3>
     <input type="text" id="plant-name" placeholder="Plant Name">
     <input type="number" id="watering-interval" placeholder="Water every X days" min="1">
+    <input type="date" id="watered-date" placeholder="Last Watered">
     <button onclick="addPlant()">Add Plant</button>
   </div>
 </div>
@@ -71,8 +72,18 @@
     Location<input type = "text" id="edit-location" placeholder="Location of Plant">
     Last Watered <input type = "date" id="edit-watered-date" placeholder="today">
 
-    <button onclick="savePlant()" class="save">Save</button>
+    <button onclick="editPlant()" class="save">Save</button>
     <button onclick="deletePlant()" class="delete">Delete</button>
+  </div>
+</div>
+
+<div id="watered-modal" class="modal hidden">
+  <div class="modal-content small">
+    <span class="close-btn" onclick="closeWateredModal()">&times;</span>
+
+    <h2 id="watered-modal-title">Plants Watered</h2>
+
+    <div id="watered-modal-list" class="watered-list"></div>
   </div>
 </div>
 </body>

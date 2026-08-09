@@ -1,25 +1,57 @@
 
   let currentDate = new Date();
   let currentPlant = null;
+  let allPlants = [];
   const bodyId = document.body.id;
+
+function formatDate(dateStr) {
+  if (!dateStr) return "N/A";
+  const [year, month, day] = dateStr.split("-").map(Number);
+  return new Date(year, month - 1, day).toLocaleDateString();
+}
+
+function getNextWaterDate(plant) {
+  if (!plant.last_watered) return new Date(0); // never watered - most urgent
+  const [year, month, day] = plant.last_watered.split("-").map(Number);
+  const next = new Date(year, month - 1, day);
+  next.setDate(next.getDate() + Number(plant.interval || 0));
+  return next;
+}
+
+function getUrgencyClass(plant) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const daysLeft = Math.ceil((getNextWaterDate(plant) - today) / (1000 * 60 * 60 * 24));
+
+  if (daysLeft <= 1) return "urgent"; // red - overdue or due today/tomorrow
+  if (daysLeft < 3) return "soon";    // orange - due within a couple days
+  return "ok";                        // green - plenty of time
+}
+
+async function fetchPlants(){
+  const res = await fetch("http://localhost:5000/get_plants");
+  allPlants = await res.json();
+  return allPlants;
+}
 
 async function addPlant() {
 
-   
+
     const plant_name = document.getElementById("plant-name").value;
    const interval = document.getElementById("watering-interval").value; // convert to integer
    const location = document.getElementById("location")?.value ?? "N/A"
-   const watered_date = document.getElementById("watered_date")?.value ?? null
+   const watered_date = document.getElementById("watered-date")?.value || null
    console.log(location, watered_date);
 
    if (!plant_name || !interval) {
-    alert("Please Fill the Plant Name and Watering Interval"); 
-    
+    alert("Please Fill the Plant Name and Watering Interval");
+
     return;
   }
 
   const res = await fetch("http://localhost:5000/add_plants", {
-    method: "POST",             
+    method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
@@ -34,30 +66,33 @@ async function addPlant() {
   const data = await res.json();
   console.log("Added plant:", data);
   alert(`${data.plant_name} added!`);
-  renderPlantsList();
+
+  if (bodyId === "plant_list") {
+    renderPlantsList();
+  } else if (bodyId === "home") {
+    await renderPlantsList();
+    renderCalendar();
+  }
 }
 
 async function renderPlantsList(){
-    const res = await fetch("http://localhost:5000/get_plants");
-  const plants = await res.json();
+  await fetchPlants();
 
   const grid = document.querySelector(".text-grid");
   grid.innerHTML = ""; // clear old content
 
-  plants.sort((a, b) => a.name.localeCompare(b.name));
-  
+  const plants = [...allPlants].sort((a, b) => getNextWaterDate(a) - getNextWaterDate(b));
+
   plants.forEach(plant => {
     const card = document.createElement("div");
-    card.classList.add("card"); 
+    card.classList.add("card", getUrgencyClass(plant));
 
 
     card.innerHTML = `
       <h3>${plant.name}</h3>
       <p class = "water" >Water every ${plant.interval} days</p>
       <p>Location: ${plant.location || "N/A"}</p>
-  <p>Last Watered: ${plant.last_watered 
-  ? new Date(plant.last_watered).toLocaleDateString()
-  : "N/A"}</p>
+  <p>Last Watered: ${formatDate(plant.last_watered)}</p>
     `;
     card.onclick = () => openModal(plant);
     grid.appendChild(card);
@@ -99,17 +134,18 @@ async function editPlant(){
   }
 
   // Send only changedFields to backend
-  fetch(`http://localhost:5000/edit_plant/${currentPlant.id}`, {
-    method: "PATCH",   
+  const res = await fetch(`http://localhost:5000/edit_plant/${currentPlant.id}`, {
+    method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(changedFields)
-  })
-  .then(res => res.json())
-  .then(data => {
-    console.log("Plant updated:", data);
-    closeModal();
-    renderPlantsList();
   });
+
+  const data = await res.json();
+  console.log("Plant updated:", data);
+  closeModal();
+
+  await renderPlantsList();
+  if (bodyId === "home") renderCalendar();
 }
 
 async function deletePlant(){
@@ -124,7 +160,9 @@ async function deletePlant(){
   const data = await res.json();
   console.log("Plant deleted:", data);
   closeModal();
-  renderPlantsList();
+
+  await renderPlantsList();
+  if (bodyId === "home") renderCalendar();
 }
 
 function openSavePlant(){
@@ -132,8 +170,8 @@ function openSavePlant(){
 }
 
 function closeModal() {
-  document.getElementById("plant-modal").classList.add("hidden");
-  document.getElementById("plant-add").classList.add("hidden");
+  document.getElementById("plant-modal")?.classList.add("hidden");
+  document.getElementById("plant-add")?.classList.add("hidden");
 }
 function renderCalendar() {
     const grid = document.getElementById("calendarGrid");
@@ -167,7 +205,17 @@ function renderCalendar() {
     for (let day = 1; day <= totalDays; day++) {
       const dateDiv = document.createElement("div");
       dateDiv.className = "date";
-      dateDiv.textContent = day;
+
+      const dayNumber = document.createElement("span");
+      dayNumber.className = "day-number";
+      dayNumber.textContent = day;
+      dateDiv.appendChild(dayNumber);
+
+      if (wasWateredOn(year, month, day)) {
+        const dot = document.createElement("span");
+        dot.className = "watered-dot";
+        dateDiv.appendChild(dot);
+      }
 
       const today = new Date();
       if (
@@ -178,8 +226,60 @@ function renderCalendar() {
         dateDiv.classList.add("today");
       }
 
+      dateDiv.onclick = () => showPlantsWateredOn(year, month, day);
+
       grid.appendChild(dateDiv);
     }
+  }
+
+  function wasWateredOn(year, month, day) {
+    return allPlants.some(plant => {
+      if (!plant.last_watered) return false;
+      const d = new Date(plant.last_watered);
+      return d.getUTCFullYear() === year && d.getUTCMonth() === month && d.getUTCDate() === day;
+    });
+  }
+
+  function showPlantsWateredOn(year, month, day) {
+    const modal = document.getElementById("watered-modal");
+    const title = document.getElementById("watered-modal-title");
+    const list = document.getElementById("watered-modal-list");
+    if (!modal || !title || !list) return;
+
+    const watered = allPlants.filter(plant => {
+      if (!plant.last_watered) return false;
+      const d = new Date(plant.last_watered);
+      return d.getUTCFullYear() === year && d.getUTCMonth() === month && d.getUTCDate() === day;
+    });
+
+    const label = new Date(year, month, day).toLocaleDateString(undefined, {
+      month: "long",
+      day: "numeric",
+      year: "numeric"
+    });
+
+    title.textContent = `Watered on ${label}`;
+    list.innerHTML = "";
+
+    if (watered.length === 0) {
+      list.innerHTML = `<p>No plants watered on this day.</p>`;
+    } else {
+      watered.forEach(plant => {
+        const item = document.createElement("div");
+        item.classList.add("watered-item");
+        item.innerHTML = `
+          <div class="name">${plant.name}</div>
+          <div class="location">Location: ${plant.location || "N/A"}</div>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    modal.classList.remove("hidden");
+  }
+
+  function closeWateredModal() {
+    document.getElementById("watered-modal").classList.add("hidden");
   }
 
   function changeMonth(direction) {
@@ -188,9 +288,9 @@ function renderCalendar() {
   }
 
   if (bodyId === "home"){
-    renderCalendar();
+    renderPlantsList().then(renderCalendar);
   }
   else if(bodyId === "plant_list"){
     renderPlantsList();
   }
-  
+

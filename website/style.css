@@ -136,11 +136,20 @@ ul li a:hover {
 .date {
   height: 60px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 4px;
   border-radius: 8px;
   cursor: pointer;
   transition: 0.2s;
+}
+
+.watered-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #1E90FF;
 }
 
 .date:hover {
@@ -192,7 +201,29 @@ height: 500px;
 .card:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-  border-left: 8px solid #164e28; 
+  border-left: 8px solid #164e28;
+}
+
+/* Urgency tabs: colour reflects how soon the plant needs watering */
+.card.ok {
+  border-left: 8px solid #45a049; /* green - plenty of time */
+}
+.card.ok:hover {
+  border-left: 8px solid #164e28;
+}
+
+.card.soon {
+  border-left: 8px solid #f39c12; /* orange - due soon */
+}
+.card.soon:hover {
+  border-left: 8px solid #c67c0e;
+}
+
+.card.urgent {
+  border-left: 8px solid #e74c3c; /* red - urgent */
+}
+.card.urgent:hover {
+  border-left: 8px solid #c0392b;
 }
 
 
@@ -326,6 +357,34 @@ height: 500px;
   margin-bottom: 20px;
   color: #333;
   text-align: center;
+}
+
+.modal-content.small {
+  width: 260px;
+  padding: 20px 25px;
+}
+
+.watered-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.watered-item {
+  background: #f1f1f1;
+  border-left: 6px solid #1E90FF;
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+
+.watered-item .name {
+  font-weight: 600;
+  color: #333;
+}
+
+.watered-item .location {
+  font-size: 0.85rem;
+  color: #666;
 }
 
 .add-plant-form input,

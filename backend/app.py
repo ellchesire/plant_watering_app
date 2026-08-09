@@ -69,7 +69,7 @@ def get_plants():
             "name": row[1],
             "interval": row[2],
             "location": row[3],
-            "last_watered": row[4]
+            "last_watered": row[4].isoformat() if row[4] else None
         })
     return jsonify(plants)
 @app.route("/edit_plant/<int:id>", methods=['PATCH'])
@@ -113,6 +113,9 @@ def edit_plant(id):
 
         cur.execute(sql, values)
         conn.commit()
+
+    cur.close()
+    conn.close()
 
     return jsonify({"status": "success", "updated_fields": data})
 @app.route("/del_plant/<int:id>", methods=['DELETE'])
